@@ -1,0 +1,214 @@
+openapi: "3.0.3"
+info:
+  title: User Management API
+  description: API for managing user data, including creating, retrieving, updating, and deleting users.
+  version: 1.0.0
+servers:
+  - url: https://api.example.com/{version}
+    description: Production server
+    variables:
+      version:
+        default: v3
+        enum:
+          - v3
+          - v2
+          - v1
+paths:
+  /users:
+    get:
+      tags:
+        - user
+      summary: Get all users
+      description: Retrieve a list of all users.
+      responses:
+        "200":
+          description: A list of users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+    post:
+      summary: Create a new user
+      description: Create a new user by providing user information in the request body.
+      requestBody:
+        description: User object that needs to be created
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserRequest"
+      responses:
+        "201":
+          description: User created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /users/{id}:
+    get:
+      summary: Get a user by ID
+      description: Retrieve details of a user by providing their ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the user to retrieve
+          schema:
+            type: string
+      responses:
+        "200":
+          description: A user object
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "404":
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+    put:
+      summary: Update a user by ID
+      description: Update an existing user by providing user information in the request body and their ID in the path.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the user to update
+          schema:
+            description: my ID.
+            type: string
+            maxLength: 10
+            pattern: '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+        - name: age
+          in: path
+          required: false
+          schema:
+            type: integer
+      requestBody:
+        description: Updated user object
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserRequest"
+      responses:
+        "200":
+          description: User updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+      security:
+        - OAuth2: [readOnly]
+
+    delete:
+      summary: Delete a user by ID
+      description: Delete an existing user by providing their ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the user to delete
+          schema:
+            type: string
+      responses:
+        "204":
+          description: User deleted successfully (no content)
+        "404":
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+      security:
+        - OAuth2: [readOnly]
+
+components:
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          scopes:
+            readOnly: read objects in your account
+          authorizationUrl: https://example.com/oauth/authorize
+          tokenUrl: https://example.com/oauth/token
+    apiKey:
+      type: apiKey
+      name: X-API-Key
+      in: cookie
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique ID of the user
+        name:
+          type: string
+          description: The name of the user
+        email:
+          type: string
+          description: The email address of the user
+        age:
+          type: integer
+          description: The age of the user
+
+    UserRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the user
+          example: John Doe
+        email:
+          type: string
+          description: The email address of the user
+          example: john.doe@example.com
+        age:
+          type: integer
+          description: The age of the user
+          example: 30
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          maximum: 30
+          description: Error code
+        message:
+          type: string
+          maximum: 30
+          description: Detailed error message
