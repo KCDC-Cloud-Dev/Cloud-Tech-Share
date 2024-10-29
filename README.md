@@ -10,3 +10,4 @@ Host are everyone.
 | 20240902 | 快速上手GCP雲端元件-服務實作經驗萃取精華分享 | 詠麟、知毅 |
 | 20240913 |  Cloud Run VS App Engine 喚醒時間 | 宇軒 |
 | 20240927 | Open API | 彥勛 |
+| 20241018 | OOP and SOLID | 榮峯 |
