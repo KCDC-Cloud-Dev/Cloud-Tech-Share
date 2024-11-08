@@ -11,4 +11,4 @@ Host are everyone.
 | 20240913 |  Cloud Run VS App Engine 喚醒時間 | 宇軒 |
 | 20240927 | Open API | 彥勛 |
 | 20241018 | OOP and SOLID | 榮峯 |
-| 20241108 | OOP and SOLID | [士鵬](https://github.com/spyua) |
+| 20241108 | Dependency Injection | [士鵬](https://github.com/spyua) |
