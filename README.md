@@ -12,3 +12,4 @@ Host are everyone.
 | 20240927 | Open API | 彥勛 |
 | 20241018 | OOP and SOLID | 榮峯 |
 | 20241108 | Dependency Injection | [士鵬](https://github.com/spyua) |
+| 20241213 | Overview of High Concurrency | [欣柔](https://github.com/Yawara0326) |
